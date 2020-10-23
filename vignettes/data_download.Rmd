@@ -1,0 +1,53 @@
+---
+title: "Data Download - IBTrACS"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Download IBTrACS storm data
+
+```{r}
+library(rnoaa)
+library(curl)
+library(utils)
+library(sp)
+library(dplyr)
+library(sf)
+library(ggplot2)
+
+#tracks_url <- "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv"
+
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
+
+NA_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
+```
+
+```{r}
+# sorting/ tidying
+NA_test <- NA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# # Intensity over time
+NA_wind <- NA_test %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+NA_intensity <- NA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY))
+
+
+NA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>%  
+  ggplot() + geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+  xlab("TIME") + ylab("Intensity") + 
+  ggtitle("NA Basin Tropical Cyclone Intensity") + theme_bw()
+
+# max intensity 
+NA_wind_max <- NA_test %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+NA_intensity_max <- NA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY))
+
+
+NA_wind_max %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>%  
+  ggplot() + geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+  xlab("TIME") + ylab("Intensity") + 
+  ggtitle("NA Basin Tropical Cyclone Intensity") + theme_bw()
+
+```
+
