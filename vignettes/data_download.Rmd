@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Download IBTrACS storm data
 
 ```{r}
+# load libraries
 library(rnoaa)
 library(curl)
 library(utils)
@@ -21,8 +22,10 @@ library(tidyr)
 
 #tracks_url <- "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv"
 
+# download NA basins data from NOAA Ibtracs
 download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
 
+# read in csv
 NA_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
 ```
 
@@ -30,24 +33,24 @@ NA_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs
 # sorting/ tidying
 NA_test <- NA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
-# Intensity over time
+# Intensity 
 NA_wind <- NA_test %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
 
 NA_intensity <- NA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
 
-NA_intensity_max <- NA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = max(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
-
+# plot Wind Speed over time
 ggplot(NA_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
   xlab("Time") + ylab("Intensity") + 
   ggtitle("NA Basin Average Maximum Wind Speed") + theme_bw()
 
-# max intensity 
-ggplot(NA_intensity_max) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + 
-  xlab("Time") + ylab("Maximum Intensity") + 
-  ggtitle("NA Basin Maximum Wind Speed") + theme_bw()
+# Frequency
+NA_hist <- NA_test %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
 
+NA_frequency <- NA_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
 
-
-
+# plot frequency over time
+ggplot(NA_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("NA Basin Histogram") + theme_bw()
 ```
 
