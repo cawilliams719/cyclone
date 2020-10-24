@@ -1,13 +1,21 @@
 ---
 title: "Data Download - IBTrACS"
-output: html_document
+author: "Caroline Williams"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Assignment 3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Download IBTrACS storm data
+## Tropical Cyclone Analysis in N. America
+
+### Download IBTrACS storm data
+Data url: https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv
 
 ```{r}
 # load libraries
@@ -19,9 +27,9 @@ library(dplyr)
 library(sf)
 library(ggplot2)
 library(tidyr)
+```
 
-#tracks_url <- "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv"
-
+```{r}
 # download NA basins data from NOAA Ibtracs
 download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
 
@@ -29,9 +37,13 @@ download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-f
 NA_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
 ```
 
+### Data Analysis
+- Intensity
+- Frequency
+
 ```{r}
 # sorting/ tidying
-NA_test <- NA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+NA_sort <- NA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
 # Intensity 
 NA_wind <- NA_test %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
@@ -53,4 +65,3 @@ ggplot(NA_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + g
   xlab("Time") + ylab("Frequency") + 
   ggtitle("NA Basin Histogram") + theme_bw()
 ```
-
