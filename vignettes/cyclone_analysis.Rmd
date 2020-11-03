@@ -1,0 +1,126 @@
+---
+title: "Tropical Cyclone Analysis"
+author: "Caroline Williams"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cyclone Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Data Analysis
+#### NA Basin
+```{r}
+# sorting/ tidying
+NA_sort <- NA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+NA_wind <- NA_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+NA_intensity <- NA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+NA_hist <- NA_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+NA_frequency <- NA_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
+#### EP Basin
+```{r}
+# sorting/ tidying
+EP_sort <- EP_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+EP_wind <- EP_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+EP_intensity <- EP_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+EP_hist <- EP_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+EP_frequency <- EP_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
+#### NI Basin
+```{r}
+# sorting/ tidying
+NI_sort <- NI_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+NI_wind <- NI_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+NI_intensity <- NI_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+NI_hist <- NI_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+NI_frequency <- NI_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
+#### SA Basin
+```{r}
+# sorting/ tidying
+SA_sort <- SA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+SA_wind <- SA_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+SA_intensity <- SA_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+SA_hist <- SA_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+SA_frequency <- SA_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
+#### SI Basin
+```{r}
+# sorting/ tidying
+SI_sort <- SI_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+SI_wind <- SI_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+SI_intensity <- SI_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+SI_hist <- SI_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+SI_frequency <- SI_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
+#### SP Basin
+```{r}
+# sorting/ tidying
+SP_sort <- SP_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+SP_wind <- SP_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+SP_intensity <- SP_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+SP_hist <- SP_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+SP_frequency <- SP_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
+#### WP Basin
+```{r}
+# sorting/ tidying
+WP_sort <- WP_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
+
+# Intensity 
+WP_wind <- WP_sort %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+WP_intensity <- WP_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+WP_hist <- WP_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+WP_frequency <- WP_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```

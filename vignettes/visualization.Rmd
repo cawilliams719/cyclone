@@ -1,0 +1,325 @@
+---
+title: "Data Visualization"
+author: "Caroline Williams"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Results}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Data Visualization
+```{r}
+# load libraries
+library(viridis)
+library(ggplot2)
+library(gganimate)
+library(babynames)
+library(hrbrthemes)
+```
+
+#### Static Plots
+```{r}
+# NA Basins
+# plot Wind Speed over time
+ggplot(NA_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("NA Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(NA_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("NA Basin Frequency") + theme_bw()
+
+# EP Basins
+# plot Wind Speed over time
+ggplot(EP_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("EP Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(EP_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("EP Basin Frequency") + theme_bw()
+
+# NI Basins
+# plot Wind Speed over time
+ggplot(NI_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("NI Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(NI_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("NI Basin Frequency") + theme_bw()
+
+# SA Basins
+# plot Wind Speed over time
+ggplot(SA_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("SA Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(SA_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("SA Basin Frequency") + theme_bw()
+
+# SI Basins
+# plot Wind Speed over time
+ggplot(SI_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("SI Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(SI_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("SI Basin Frequency") + theme_bw()
+
+# SP Basins
+# plot Wind Speed over time
+ggplot(SP_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("SP Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(SP_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("SP Basin Frequency") + theme_bw()
+
+# WP Basins
+# plot Wind Speed over time
+ggplot(WP_intensity) + geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Intensity") + 
+  ggtitle("WP Basin Average Maximum Wind Speed") + theme_bw()
+
+# plot frequency over time
+ggplot(WP_frequency) + geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm") +
+  xlab("Time") + ylab("Frequency") + 
+  ggtitle("WP Basin Frequency") + theme_bw()
+```
+
+#### Dynamic Plots
+```{r}
+# removing NA value
+NA_Int <- NA_intensity %>% slice(-1)
+NA_Freq <- NA_frequency %>% slice(-1)
+EP_Int <- EP_intensity %>% slice(-1)
+EP_Freq <- EP_frequency %>% slice(-1)
+NI_Int <- NI_intensity %>% slice(-1)
+NI_Freq <- NI_frequency %>% slice(-1)
+SA_Int <- SA_intensity %>% slice(-1)
+SA_Freq <- SA_frequency %>% slice(-1)
+SI_Int <- SI_intensity %>% slice(-1)
+SI_Freq <- SI_frequency %>% slice(-1)
+SP_Int <- SP_intensity %>% slice(-1)
+SP_Freq <- SP_frequency %>% slice(-1)
+WP_Int <- WP_intensity %>% slice(-1)
+WP_Freq <- WP_frequency %>% slice(-1)
+
+# NA Basin
+# plot intensity
+NA_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("NA Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("NA_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+NA_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("NA Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("NA_frequency.gif", animation = last_animation(), path = "results/")
+
+# EP Basin
+# plot intensity
+EP_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("EP Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("EP_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+EP_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("EP Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("EP_frequency.gif", animation = last_animation(), path = "results/")
+
+# NI Basin
+# plot intensity
+NI_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("NI Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("NI_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+NI_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("NI Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("NI_frequency.gif", animation = last_animation(), path = "results/")
+
+# NA Basin
+# plot intensity
+SA_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("SA Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("SA_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+SA_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("SA Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("SA_frequency.gif", animation = last_animation(), path = "results/")
+
+# SI Basin
+# plot intensity
+SI_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("SI Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("SI_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+SI_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("SI Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("SI_frequency.gif", animation = last_animation(), path = "results/")
+
+# SP Basin
+# plot intensity
+SP_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("SP Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("SP_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+SP_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("SP Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("SP_frequency.gif", animation = last_animation(), path = "results/")
+
+# WP Basin
+# plot intensity
+WP_Int %>%
+  ggplot(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = INTENSE_YRS), color = "red") +
+    ggtitle("WP Basin Average Maximum Wind Speed") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Intensity") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("WP_intensity.gif", animation = last_animation(), path = "results/")
+
+# plot frequency
+WP_Freq %>%
+  ggplot(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    geom_point(aes(x = YEAR, y = FREQ_YRS), color = "red") +
+    ggtitle("WP Basin Frequency") +
+    theme_bw() +
+    xlab("Time") +
+    ylab("Frequency") +
+    transition_reveal(YEAR)
+
+# save at gif
+anim_save("WP_frequency.gif", animation = last_animation(), path = "results/")
+```
