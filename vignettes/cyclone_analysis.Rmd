@@ -1,7 +1,10 @@
 ---
 title: "Tropical Cyclone Analysis"
 author: "Caroline Williams"
-output: rmarkdown::html_vignette
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
 vignette: >
   %\VignetteIndexEntry{Cyclone Analysis}
   %\VignetteEngine{knitr::rmarkdown}
@@ -12,9 +15,41 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+# load libraries
+library(dplyr)
+library(sf)
+library(tidyr)
+```
+
+# Read in data
+```{r, eval = FALSE}
+# read in csv files
+# read in NA Basin
+NA_basins <- read.csv(system.file("extdata/ibtracs.NA.list.v04r00.csv", package = "cyclone"))
+
+# read in EP Basin
+EP_basins <- read.csv(system.file("extdata/ibtracs.EP.list.v04r00.csv", package = "cyclone"))
+
+# read in NI Basin
+NI_basins <- read.csv(system.file("extdata/ibtracs.NI.list.v04r00.csv", package = "cyclone"))
+
+# read in SA Basin
+SA_basins <- read.csv(system.file("extdata/ibtracs.SA.list.v04r00.csv", package = "cyclone"))
+
+# read in SI Basin
+SI_basins <- read.csv(system.file("extdata/ibtracs.SI.list.v04r00.csv", package = "cyclone"))
+
+# read in SP Basin
+SP_basins <- read.csv(system.file("extdata/ibtracs.SP.list.v04r00.csv", package = "cyclone"))
+
+# read in WP Basin
+WP_basins <- read.csv(system.file("extdata/ibtracs.WP.list.v04r00.csv", package = "cyclone"))
+```
+
 ### Data Analysis
 #### NA Basin
-```{r}
+```{r, eval = FALSE}
 # sorting/ tidying
 NA_sort <- NA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
@@ -30,7 +65,7 @@ NA_frequency <- NA_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %
 ```
 
 #### EP Basin
-```{r}
+```{r, eval = FALSE}
 # sorting/ tidying
 EP_sort <- EP_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
@@ -46,7 +81,7 @@ EP_frequency <- EP_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %
 ```
 
 #### NI Basin
-```{r}
+```{r, eval = FALSE}
 # sorting/ tidying
 NI_sort <- NI_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
@@ -62,7 +97,7 @@ NI_frequency <- NI_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %
 ```
 
 #### SA Basin
-```{r}
+```{r, eval = FALSE}
 # sorting/ tidying
 SA_sort <- SA_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
@@ -78,7 +113,7 @@ SA_frequency <- SA_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %
 ```
 
 #### SI Basin
-```{r}
+```{r, eval = FALSE}
 # sorting/ tidying
 SI_sort <- SI_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
@@ -94,7 +129,7 @@ SI_frequency <- SI_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %
 ```
 
 #### SP Basin
-```{r}
+```{r, eval =  FALSE}
 # sorting/ tidying
 SP_sort <- SP_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 
@@ -110,7 +145,7 @@ SP_frequency <- SP_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %
 ```
 
 #### WP Basin
-```{r}
+```{r, eval = FALSE}
 # sorting/ tidying
 WP_sort <- WP_basins %>% select(SID, SEASON, NUMBER, BASIN, NAME, ISO_TIME, LAT, LON, WMO_WIND, DIST2LAND, LANDFALL) %>% separate(., "ISO_TIME", c("YEAR", "MONTH", "DATE"), sep= "-") %>% separate(., "DATE", c("DATE", "TIME"), sep= " ")
 

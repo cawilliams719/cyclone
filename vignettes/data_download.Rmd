@@ -1,7 +1,10 @@
 ---
 title: "Data Download - IBTrACS"
 author: "Caroline Williams"
-output: rmarkdown::html_vignette
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
 vignette: >
   %\VignetteIndexEntry{Download Data}
   %\VignetteEngine{knitr::rmarkdown}
@@ -29,48 +32,26 @@ library(ggplot2)
 library(tidyr)
 ```
 
-```{r}
+```{r, eval = FALSE}
 # download basins data from NOAA Ibtracs
 # NA Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NA.list.v04r00.csv", "inst/extdata/ibtracs.NA.list.v04r00.csv")
 
 # EP Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.EP.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.EP.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.EP.list.v04r00.csv", "inst/extdata/ibtracs.EP.list.v04r00.csv")
 
 # NI Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NI.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NI.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.NI.list.v04r00.csv", "inst/exdata/ibtracs.NI.list.v04r00.csv")
 
 # SA Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.SA.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.SA.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.SA.list.v04r00.csv", "inst/extdata/ibtracs.SA.list.v04r00.csv")
 
 # SI Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.SI.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.SI.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.SI.list.v04r00.csv", "inst/extdata/ibtracs.SI.list.v04r00.csv")
 
 # SP Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.SP.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.SP.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.SP.list.v04r00.csv", "inst/extdata/ibtracs.SP.list.v04r00.csv")
 
 # WP Basin
-download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.WP.list.v04r00.csv", "C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.WP.list.v04r00.csv")
-
-# read in csv files
-# read in NA Basin
-NA_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NA.list.v04r00.csv")
-
-# read in EP Basin
-EP_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.EP.list.v04r00.csv")
-
-# read in NI Basin
-NI_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.NI.list.v04r00.csv")
-
-# read in SA Basin
-SA_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.SA.list.v04r00.csv")
-
-# read in SI Basin
-SI_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.SI.list.v04r00.csv")
-
-# read in SP Basin
-SP_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.SP.list.v04r00.csv")
-
-# read in WP Basin
-WP_basins <- read.csv("C:/Users/Caroline/Documents/Projects/cyclone/data/ibtracs.WP.list.v04r00.csv")
+download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.WP.list.v04r00.csv", "inst/extdata/ibtracs.WP.list.v04r00.csv")
 ```
