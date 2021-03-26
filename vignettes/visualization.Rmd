@@ -168,6 +168,37 @@ cowplot::plot_grid(NAi, NAf, EPi, EPf, NIi, NIf, SAi, SAf, SIi, SIf,
 ```{r, eval = FALSE, out.width = "100%", echo=FALSE, fig.align='center'}
 knitr::include_graphics("results/...png")
 ```
+##### Country-Scale: Vietnam
+```{r}
+# WP Basins: Vietnam
+# plot Wind Speed over time
+Vieti <- ggplot(Viet_intensity) + 
+  geom_line(aes(x = YEAR, y = INTENSE_YRS), color = "red") + 
+  ggpubr::stat_cor(data = Viet_intensity, mapping =aes(
+    x = YEAR, y = INTENSE_YRS), col = "black", label.x = 1985, label.y = 59) +
+  ggpubr::stat_regline_equation(mapping = aes(
+    x = YEAR, y = INTENSE_YRS), col = "black", label.x = 1985, label.y = 58.25) +
+  geom_smooth(aes(x = YEAR, y = INTENSE_YRS), color = "black", method = "lm", se = FALSE) +
+  xlab("Time") + 
+  ylab("Average Maximum Wind Speed") + 
+  ggtitle("Tropical Cyclone Intensity in Vietnam") + 
+  theme_bw()
+
+# plot frequency over time
+Vietf <- ggplot(Viet_frequency) + 
+  geom_line(aes(x = YEAR, y = FREQ_YRS), color = "red") + 
+  ggpubr::stat_cor(data = Viet_frequency, mapping =aes(
+    x = YEAR, y = FREQ_YRS), col = "black", label.x = 1915, label.y = 20.5) +
+  ggpubr::stat_regline_equation(mapping = aes(
+    x = YEAR, y = FREQ_YRS), col = "black", label.x = 1915, label.y = 19.75) +
+  geom_smooth(aes(x = YEAR, y = FREQ_YRS), color = "black", method = "lm", se = FALSE) +
+  xlab("Time") + 
+  ylab("Frequency") + 
+  ggtitle("Tropical Cyclone Frequency in Vietnam") + 
+  theme_bw()
+
+cowplot::plot_grid(Vieti, Vietf, nrow = 1, ncol = 2, labels = "AUTO")
+```
 
 #### Dynamic Plots
 ```{r, eval = FALSE}

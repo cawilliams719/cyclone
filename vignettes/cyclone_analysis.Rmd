@@ -159,3 +159,30 @@ WP_hist <- WP_sort %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>
 
 WP_frequency <- WP_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
 ```
+
+### Country-Scale: Vietnam
+```{r}
+# create bounding box
+pol <- st_polygon(list(cbind(x = c(105, 120, 120, 105, 105), 
+                             y = c(5, 5, 20, 20, 5))))
+
+# convert basin to sf object
+WP_sf <- WP_sort %>% .[-1,] %>% mutate(LON = LON %>% as.numeric(!is.na("LON"))) %>% mutate(LAT = LAT %>% as.numeric(!is.na("LAT"))) %>% st_as_sf(coords = c("LON", "LAT"), crs = 4326)
+
+# project Vietnam bounding box
+pol_sf <- pol %>% st_sfc %>% st_sf(ID = 1, crs = 4326) %>% st_transform(st_crs(WP_sf))
+
+Vietnam_sf <- WP_sf %>% slice(st_intersects(x = pol_sf, y = WP_sf)[[1]])
+p <- plot(Vietnam_sf)
+
+# Intensity 
+Viet_wind <- Vietnam_sf %>% filter(WMO_WIND > 0) %>% group_by(SID, YEAR) %>% summarize(INTENSITY = mean(WMO_WIND %>% as.numeric()))
+
+Viet_intensity <- Viet_wind %>% group_by(YEAR) %>% summarize(INTENSE_YRS = mean(INTENSITY)) %>% mutate(YEAR = YEAR %>% as.numeric())
+
+# Frequency
+Viet_hist <- Vietnam_sf %>% group_by(SID, YEAR) %>% summarize(FREQ = frequency(SID %>% as.numeric()))
+
+Viet_frequency <- Viet_hist %>% group_by(YEAR) %>% summarize(FREQ_YRS = sum(FREQ)) %>% mutate(YEAR = YEAR %>% as.numeric())
+```
+
