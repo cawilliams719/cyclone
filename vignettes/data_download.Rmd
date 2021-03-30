@@ -30,8 +30,10 @@ library(dplyr)
 library(sf)
 library(ggplot2)
 library(tidyr)
+library(FedData)
 ```
 
+# Download CSVs
 ```{r, eval = FALSE}
 # download basins data from NOAA Ibtracs
 # NA Basin
@@ -55,3 +57,27 @@ download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-f
 # WP Basin
 download.file("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/csv/ibtracs.WP.list.v04r00.csv", "inst/extdata/ibtracs.WP.list.v04r00.csv")
 ```
+
+# Download Line Shapefiles
+```{r}
+urls <- list("https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.NA.list.v04r00.lines.zip", 
+             "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.EP.list.v04r00.lines.zip",
+             "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.NI.list.v04r00.lines.zip",
+             "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.SA.list.v04r00.lines.zip",
+             "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.SI.list.v04r00.lines.zip",
+             "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.SP.list.v04r00.lines.zip",
+             "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r00/access/shapefile/IBTrACS.WP.list.v04r00.lines.zip")
+
+tc_dir <- "C:/Users/Caroline/Documents/Projects/cyclone/inst/extdata" # specify the file path for the output 
+# system.file("extdata", package = "cyclone")
+# iterate through .zip files 
+for (i in urls) {
+  tmp <- tempfile(tmpdir = tc_dir, fileext = ".zip")
+  download.file(i, tmp)
+  unzip(tmp,exdir = tc_dir)
+  unlink(tmp)
+  fp <- list.files(path = tc_dir, full.names = TRUE, pattern = "ibtracs")
+  fp <- gsub("/", "\\\\", fp)
+}
+```
+
